@@ -15,16 +15,24 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.VaruneTomar.trash-finder"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.VaruneTomar.trash-finder"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "scheme": "trash-finder",
+    "extra": {
+      "eas": {
+        "projectId": "a3a4a86d-2854-4da6-a04d-376c2d36796c"
+      }
     }
   }
 }
