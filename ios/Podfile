@@ -57,6 +57,14 @@ target 'trashfinder' do
     :flipper_configuration => flipper_config
   )
 
+  # Add react-native-maps and Google Maps SDK
+  pod 'react-native-maps', :path => '../node_modules/react-native-maps'
+  pod 'GoogleMaps'
+  pod 'Google-Maps-iOS-Utils', :git => 'https://github.com/Simon-TechForm/google-maps-ios-utils.git', :branch => 'feat/support-apple-silicon'
+
+  rn_maps_path = '../node_modules/react-native-maps'
+  pod 'react-native-google-maps', :path => rn_maps_path
+
   post_install do |installer|
     react_native_post_install(
       installer,
@@ -72,6 +80,15 @@ target 'trashfinder' do
       target_installation_result.resource_bundle_targets.each do |resource_bundle_target|
         resource_bundle_target.build_configurations.each do |config|
           config.build_settings['CODE_SIGNING_ALLOWED'] = 'NO'
+        end
+      end
+    end
+
+    # Set the Google Maps API key
+    installer.pods_project.targets.each do |target|
+      if target.name == 'react-native-maps'
+        target.build_configurations.each do |config|
+          config.build_settings['GOOGLE_MAPS_API_KEY'] = 'AIzaSyAjtYhUZhLIXTWYa3ks76kB-fnaF8W15qE'
         end
       end
     end
