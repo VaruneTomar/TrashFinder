@@ -2443,18 +2443,13 @@
   resolved "https://registry.npmjs.org/@react-native-community/hooks/-/hooks-2.8.1.tgz"
   integrity sha512-DCmCIC0Gn9m6K0Mlg2MwNmTxMEpBu5lTLsI6b/XUAv/vLGa6o+X7RhCai4FWeqkjCU36+ZOwaLzDo4NBWMXaoQ==
 
-"@react-native-firebase/app@^18.6.1", "@react-native-firebase/app@18.6.1":
+"@react-native-firebase/app@^18.6.1":
   version "18.6.1"
   resolved "https://registry.npmjs.org/@react-native-firebase/app/-/app-18.6.1.tgz"
   integrity sha512-lqINQLLTCmBSeln/cSPfvuJNQuwsPY9n6QyxSRRCTjyZdEPI3EY2df7isOCp8BwuxqYmkR9YhTNw2yFI72th+w==
   dependencies:
     opencollective-postinstall "^2.0.3"
     superstruct "^0.6.2"
-
-"@react-native-firebase/firestore@^18.6.1":
-  version "18.6.1"
-  resolved "https://registry.npmjs.org/@react-native-firebase/firestore/-/firestore-18.6.1.tgz"
-  integrity sha512-D3jGxNUMJg2D4CF7bdsXGfBAvs1F1XPOJMSqWJNFZnS/3voxiNclqrm4yxIn9ptFAsJHmXqMUHDA0vASxhZDWA==
 
 "@react-native/assets-registry@^0.72.0":
   version "0.72.0"
