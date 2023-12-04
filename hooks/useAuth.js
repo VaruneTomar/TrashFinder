@@ -20,6 +20,7 @@ WebBrowser.maybeCompleteAuthSession();
 
 const config = {
   iosClientId: '657651879670-v70ae71bfd8v8110pecbehu76n306tm0.apps.googleusercontent.com',
+  androidClientId: "657651879670-mgq70ecusmgesihpmne299q6e4ong2ud.apps.googleusercontent.com",
   scopes: ["profile", "email"],
   permissions: ["public_profile", "email", "gender", "location"],
   expoClientId: 'a3a4a86d-2854-4da6-a04d-376c2d36796c',

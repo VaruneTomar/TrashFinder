@@ -1,13 +1,20 @@
+// MapComponent.js
+
 import React, { useEffect, useState } from 'react';
 import MapView, { Marker } from 'react-native-maps';
-import { db } from '../firebase'; // Import your Firebase configuration
+import { db } from '../firebase';
 import { collection, getDocs } from 'firebase/firestore';
+import BottomSheet from './BottomSheet';
+
+// MapComponent.js
+
+// ... (existing imports)
 
 const MapComponent = () => {
   const [bins, setBins] = useState([]);
+  const [selectedBin, setSelectedBin] = useState(null);
 
   useEffect(() => {
-    // Fetch bins data from Firestore
     const fetchBins = async () => {
       try {
         const binsCollection = collection(db, 'TrashBins');
@@ -25,42 +32,55 @@ const MapComponent = () => {
     fetchBins();
   }, []);
 
+  const handleMarkerPress = (bin) => {
+    setSelectedBin(bin);
+  };
 
+  const handleCloseBottomSheet = () => {
+    setSelectedBin(null);
+  };
 
-  // Initial region for the map
-  const initialRegion = {
-    latitude: 35.7895, // Example latitude for Tokyo
-    longitude: 139.6917, // Example longitude for Tokyo
-    latitudeDelta: 0.0922,
-    longitudeDelta: 0.0421,
+  const renderMarkers = () => {
+    return bins.map((bin) => (
+      <Marker
+        key={bin.id}
+        coordinate={{
+          latitude: bin.Location.latitude,
+          longitude: bin.Location.longitude,
+        }}
+        onPress={() => handleMarkerPress(bin)}
+      />
+    ));
   };
 
   return (
-    <MapView
-      style={{ flex: 1 }}
-      initialRegion={initialRegion}
-      showsUserLocation={true}
-      provider="google"
-      customMapStyle={[]}
-      
-    >
-      {/* Render markers for each bin */}
-      {bins.map((bin) => (
-        <Marker
-          key={bin.id}
-          coordinate={{
-            latitude: bin.Location.latitude,
-            longitude: bin.Location.longitude,
-          }}
-          title={bin.name || 'Trash Bin'}
-          description="This is a trash bin"
+    <>
+      <MapView
+        style={{ flex: 1 }}
+        showsUserLocation={true}
+        provider="google"
+        customMapStyle={[]}
+      >
+        {renderMarkers()}
+      </MapView>
+
+      {selectedBin && (
+        <BottomSheet
+          isOpen={true} // Assuming it should be open when a marker is selected
+          onClose={handleCloseBottomSheet}
+          bin={selectedBin}
         />
-      ))}
-    </MapView>
+      )}
+    </>
   );
 };
 
 export default MapComponent;
+
+
+
+
+
 
 
 

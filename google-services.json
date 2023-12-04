@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:657651879670:android:564933ea3cdd53546f26d7",
         "android_client_info": {
-          "package_name": "host.exp.exponent"
+          "package_name": "com.vroom23.trashfinder"
         }
       },
       "oauth_client": [
@@ -34,7 +34,7 @@
               "client_id": "657651879670-b6rpb9jlg3vjq5ifques6gm8pemntrqf.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "host.exp.exponent"
+                "bundle_id": "com.vroom23.trashfinder"
               }
             }
           ]

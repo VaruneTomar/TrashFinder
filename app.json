@@ -23,7 +23,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.VaruneTomar.trash-finder"
+      "package": "com.vroom23.trashfinder"
     },
     "web": {
       "favicon": "./assets/favicon.png"
