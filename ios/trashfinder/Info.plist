@@ -10,6 +10,14 @@
     <string>trash-finder</string>
     <key>CFBundleExecutable</key>
     <string>$(EXECUTABLE_NAME)</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Location Permission</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>Location Permission</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>Location Permission</string>
+    <key>NSLocationUsageDescription</key>
+    <string>GPS data is required to..</string>
     <key>CFBundleIdentifier</key>
     <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
     <key>CFBundleInfoDictionaryVersion</key>

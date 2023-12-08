@@ -1,14 +1,9 @@
-// MapComponent.js
-
 import React, { useEffect, useState } from 'react';
+import { Platform } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { db } from '../firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import BottomSheet from './BottomSheet';
-
-// MapComponent.js
-
-// ... (existing imports)
 
 const MapComponent = () => {
   const [bins, setBins] = useState([]);
@@ -53,17 +48,37 @@ const MapComponent = () => {
     ));
   };
 
+  const renderMap = () => {
+    if (Platform.OS === 'android') {
+      // Use Google Maps for Android
+      return (
+        <MapView
+          style={{ flex: 1 }}
+          showsUserLocation={true}
+          provider="google"
+          customMapStyle={[]}
+        >
+          {renderMarkers()}
+        </MapView>
+      );
+    } else {
+      // Use Apple Maps for iOS
+      return (
+        <MapView
+          style={{ flex: 1 }}
+          showsUserLocation={true}
+           // Note: For iOS, 'google' provider still works with Apple Maps
+          customMapStyle={[]}
+        >
+          {renderMarkers()}
+        </MapView>
+      );
+    }
+  };
+
   return (
     <>
-      <MapView
-        style={{ flex: 1 }}
-        showsUserLocation={true}
-        provider="google"
-        customMapStyle={[]}
-      >
-        {renderMarkers()}
-      </MapView>
-
+      {renderMap()}
       {selectedBin && (
         <BottomSheet
           isOpen={true} // Assuming it should be open when a marker is selected
@@ -76,6 +91,7 @@ const MapComponent = () => {
 };
 
 export default MapComponent;
+
 
 
 
