@@ -27,6 +27,8 @@
     "expo-splash-screen": "~0.20.5",
     "expo-status-bar": "~1.6.0",
     "firebase": "^10.5.2",
+    "geolib": "^3.3.4",
+    "haversine-distance": "^1.2.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-native": "0.72.6",
