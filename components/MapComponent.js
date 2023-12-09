@@ -1,31 +1,43 @@
-import React, { useEffect, useState } from 'react';
-import { Platform } from 'react-native';
+import React, { useEffect, useState, useRef } from 'react';
+import { Platform, TouchableOpacity, Text } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { db } from '../firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import BottomSheet from './BottomSheet';
 
-const MapComponent = () => {
+const MapComponent = ({ userLocation }) => {
   const [bins, setBins] = useState([]);
   const [selectedBin, setSelectedBin] = useState(null);
+  const mapRef = useRef(null);
 
   useEffect(() => {
-    const fetchBins = async () => {
-      try {
-        const binsCollection = collection(db, 'TrashBins');
-        const binsSnapshot = await getDocs(binsCollection);
-        const binsData = binsSnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setBins(binsData);
-      } catch (error) {
-        console.error('Error fetching bins:', error);
-      }
-    };
-
+    
     fetchBins();
-  }, []);
+
+    
+    if (mapRef.current && userLocation) {
+      mapRef.current.animateToRegion({
+        latitude: userLocation.latitude,
+        longitude: userLocation.longitude,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      });
+    }
+  }, [userLocation]);
+
+  const fetchBins = async () => {
+    try {
+      const binsCollection = collection(db, 'TrashBins');
+      const binsSnapshot = await getDocs(binsCollection);
+      const binsData = binsSnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setBins(binsData);
+    } catch (error) {
+      console.error('Error fetching bins:', error);
+    }
+  };
 
   const handleMarkerPress = (bin) => {
     setSelectedBin(bin);
@@ -33,6 +45,18 @@ const MapComponent = () => {
 
   const handleCloseBottomSheet = () => {
     setSelectedBin(null);
+  };
+
+  const handleZoomToUserLocation = () => {
+    // Update map region to user's location
+    if (mapRef.current && userLocation) {
+      mapRef.current.animateToRegion({
+        latitude: userLocation.latitude,
+        longitude: userLocation.longitude,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      });
+    }
   };
 
   const renderMarkers = () => {
@@ -53,6 +77,7 @@ const MapComponent = () => {
       // Use Google Maps for Android
       return (
         <MapView
+          ref={mapRef}
           style={{ flex: 1 }}
           showsUserLocation={true}
           provider="google"
@@ -65,9 +90,9 @@ const MapComponent = () => {
       // Use Apple Maps for iOS
       return (
         <MapView
+          ref={mapRef}
           style={{ flex: 1 }}
           showsUserLocation={true}
-           // Note: For iOS, 'google' provider still works with Apple Maps
           customMapStyle={[]}
         >
           {renderMarkers()}
@@ -79,6 +104,9 @@ const MapComponent = () => {
   return (
     <>
       {renderMap()}
+      <TouchableOpacity style={styles.zoomButton} onPress={handleZoomToUserLocation}>
+        <Text style={styles.zoomButtonText}>Zoom to User Location</Text>
+      </TouchableOpacity>
       {selectedBin && (
         <BottomSheet
           isOpen={true} // Assuming it should be open when a marker is selected
@@ -90,7 +118,25 @@ const MapComponent = () => {
   );
 };
 
+const styles = {
+  zoomButton: {
+    position: 'absolute',
+    bottom: 16,
+    right: 16,
+    backgroundColor: 'green', // Adjust the style as needed
+    padding: 10,
+    borderRadius: 8,
+  },
+  zoomButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
+};
+
 export default MapComponent;
+
+
+
 
 
 

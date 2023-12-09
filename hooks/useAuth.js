@@ -1,6 +1,3 @@
-//androidClientId: '657651879670-mgq70ecusmgesihpmne299q6e4ong2ud.apps.googleusercontent.com',
-//iosClientId: '657651879670-b6rpb9jlg3vjq5ifques6gm8pemntrqf.apps.googleusercontent.com',
-
 import { View, Text, ActivityIndicator } from 'react-native'
 import React, { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import * as Google from "expo-auth-session/providers/google";
@@ -73,7 +70,7 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     if (response?.type === "success") {
       console.log(response.params.id_token);
-      // setToken(response.params.id_token);
+      
       getUserInfo(response.params.id_token);
     }
   }, [response, token]);
@@ -84,17 +81,11 @@ const AuthProvider = ({ children }) => {
       await signInWithCredential(auth, credential)
     } catch (error) {
       console.log(error, 'error');
-      // Add your own error handler here
+      
     }
   };
 
 
-  // const memoedValue = useMemo(()=>({
-  //   user,
-  //   loadingLogin,
-  //   signInWithGoogle,
-  //   logOut
-  // }) , [user, loadingLogin])
 
 
   return (
