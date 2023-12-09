@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { View, Alert } from 'react-native';
 import MapComponent from '../components/MapComponent';
 import Geolocation from '@react-native-community/geolocation';
+import { useNavigation } from '@react-navigation/native';
+import { useLocation } from '../components/LocationContext';
 
 const HomeScreen = () => {
-  const [userLocation, setUserLocation] = useState(null);
+  const navigation = useNavigation();
+  const { setLocation } = useLocation();
 
   useEffect(() => {
     requestLocationPermission();
@@ -18,7 +21,6 @@ const HomeScreen = () => {
       },
       (error) => {
         console.error('Error requesting location permission:', error);
-        setUserLocation({ latitude: DEFAULT_LATITUDE, longitude: DEFAULT_LONGITUDE });
         showPermissionErrorAlert();
       }
     );
@@ -28,11 +30,10 @@ const HomeScreen = () => {
     Geolocation.getCurrentPosition(
       (position) => {
         const { latitude, longitude } = position.coords;
-        setUserLocation({ latitude, longitude });
+        setLocation({ latitude, longitude });
       },
       (error) => {
         console.error('Error getting location:', error);
-        setUserLocation({ latitude: DEFAULT_LATITUDE, longitude: DEFAULT_LONGITUDE });
         showLocationErrorAlert();
       },
       { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
@@ -55,18 +56,15 @@ const HomeScreen = () => {
     );
   };
 
-  const DEFAULT_LATITUDE = 37.7749; // San Francisco latitude
-  const DEFAULT_LONGITUDE = -122.4194; // San Francisco longitude
-
   return (
     <View style={{ flex: 1 }}>
-      <MapComponent userLocation={userLocation} />
-      
+      <MapComponent />
     </View>
   );
 };
 
 export default HomeScreen;
+
 
 
 

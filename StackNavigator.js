@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './screens/HomeScreen';
 import LoginScreen from './screens/LoginScreen';
-import ProfileScreen from './screens/ProfileScreen';
+import BinListScreen from './screens/BinListScreen';
 import { AuthOpen } from './hooks/useAuth';
 
 const Stack = createNativeStackNavigator();
@@ -46,8 +46,8 @@ const StackNavigator = () => {
       {/* Add additional tabs/screens as needed */}
       {user && (
         <Tab.Screen
-          name="Profile"
-          component={ProfileScreen}
+          name="BinList"
+          component={BinListScreen}
           
           options={{ tabBarBadge: 1, headerShown: false }}
         />

@@ -4,17 +4,17 @@ import MapView, { Marker } from 'react-native-maps';
 import { db } from '../firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import BottomSheet from './BottomSheet';
+import { useLocation } from '../components/LocationContext'; 
 
-const MapComponent = ({ userLocation }) => {
+const MapComponent = () => {
+  const { userLocation } = useLocation(); 
   const [bins, setBins] = useState([]);
   const [selectedBin, setSelectedBin] = useState(null);
   const mapRef = useRef(null);
 
   useEffect(() => {
-    
     fetchBins();
 
-    
     if (mapRef.current && userLocation) {
       mapRef.current.animateToRegion({
         latitude: userLocation.latitude,
@@ -48,7 +48,6 @@ const MapComponent = ({ userLocation }) => {
   };
 
   const handleZoomToUserLocation = () => {
-    // Update map region to user's location
     if (mapRef.current && userLocation) {
       mapRef.current.animateToRegion({
         latitude: userLocation.latitude,
@@ -74,7 +73,6 @@ const MapComponent = ({ userLocation }) => {
 
   const renderMap = () => {
     if (Platform.OS === 'android') {
-      // Use Google Maps for Android
       return (
         <MapView
           ref={mapRef}
@@ -87,7 +85,6 @@ const MapComponent = ({ userLocation }) => {
         </MapView>
       );
     } else {
-      // Use Apple Maps for iOS
       return (
         <MapView
           ref={mapRef}
@@ -109,7 +106,7 @@ const MapComponent = ({ userLocation }) => {
       </TouchableOpacity>
       {selectedBin && (
         <BottomSheet
-          isOpen={true} // Assuming it should be open when a marker is selected
+          isOpen={true}
           onClose={handleCloseBottomSheet}
           bin={selectedBin}
         />
@@ -123,7 +120,7 @@ const styles = {
     position: 'absolute',
     bottom: 16,
     right: 16,
-    backgroundColor: 'green', // Adjust the style as needed
+    backgroundColor: 'green',
     padding: 10,
     borderRadius: 8,
   },
@@ -134,6 +131,7 @@ const styles = {
 };
 
 export default MapComponent;
+
 
 
 
