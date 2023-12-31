@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import { useLocation } from '../components/LocationContext';
 import { db } from '../firebase';
 import { collection, getDocs } from 'firebase/firestore';
@@ -8,10 +8,11 @@ import haversine from 'haversine-distance';
 const BinListScreen = () => {
   const { userLocation } = useLocation();
   const [bins, setBins] = useState([]);
+  const [selectedDistance, setSelectedDistance] = useState(null);
 
   useEffect(() => {
     fetchBins();
-  }, [userLocation]);
+  }, [userLocation, selectedDistance]);
 
   const fetchBins = async () => {
     try {
@@ -21,31 +22,56 @@ const BinListScreen = () => {
         id: doc.id,
         ...doc.data(),
       }));
-      const sortedBins = calculateDistancesAndSort(binsData, userLocation);
-      setBins(sortedBins);
+
+      const sortedBins = await calculateDistancesAndSort(binsData, userLocation);
+      const filteredBins = filterBinsByDistance(sortedBins, selectedDistance);
+      setBins(filteredBins);
     } catch (error) {
       console.error('Error fetching bins:', error);
     }
   };
 
-  const calculateDistancesAndSort = (bins, userLocation) => {
-    return bins
-      .map((bin) => ({
-        ...bin,
-        distance: haversine(userLocation, {
+  const calculateDistancesAndSort = async (bins, userLocation) => {
+    const distances = await Promise.all(
+      bins.map(async (bin) => {
+        const distance = await haversine(userLocation, {
           latitude: bin.Location.latitude,
           longitude: bin.Location.longitude,
-        }),
-      }))
-      .sort((a, b) => a.distance - b.distance);
+        });
+        return { ...bin, distance: distance / 1609.34 }; // Convert meters to miles
+      })
+    );
+
+    return distances.sort((a, b) => a.distance - b.distance);
   };
+
+  const filterBinsByDistance = (bins, distance) => {
+    if (distance === null) {
+      return bins; // Show all bins if no distance is selected
+    }
+    return bins.filter((bin) => bin.distance <= distance);
+  };
+
+  const renderDistanceButton = (distance) => (
+    <TouchableOpacity
+      style={[styles.distanceButton, selectedDistance === distance && styles.selectedDistanceButton]}
+      onPress={() => setSelectedDistance(distance)}
+    >
+      <Text>{`${distance} miles`}</Text>
+    </TouchableOpacity>
+  );
 
   const renderItem = ({ item }) => (
     <View style={styles.binContainer}>
       <View style={styles.binItem}>
-        <Text style={styles.binId}>{`Bin ID: ${item.id}`}</Text>
-        <Text>{`Distance: ${item.distance.toFixed(2)} meters`}</Text>
-        {/* Add additional details about the bin here */}
+        <View style={styles.distanceContainer}>
+          <Text style={styles.distanceText}>{item.distance.toFixed(1)} miles</Text>
+        </View>
+        <Text style={styles.notesText}>{`Description: ${item.Notes}`}</Text>
+        <View style={styles.goButtonContainer}>
+          {/* Add your "GO" button here */}
+          <Text style={styles.goButtonText}>GO</Text>
+        </View>
       </View>
     </View>
   );
@@ -53,6 +79,11 @@ const BinListScreen = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Nearest Bins</Text>
+      <View style={styles.distanceButtonsContainer}>
+        {renderDistanceButton(5)}
+        {renderDistanceButton(10)}
+        {renderDistanceButton(25000)}
+      </View>
       <FlatList
         data={bins}
         renderItem={renderItem}
@@ -66,22 +97,25 @@ const BinListScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     padding: 16,
-  }, header: {
-    fontSize: 18,
+  },
+  header: {
+    fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 46,
+    marginTop: 56,
+    marginBottom: 16,
   },
   listContainer: {
     flexGrow: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
   },
   binContainer: {
-    marginVertical: 8,
+    marginVertical: 2,
+    width: '100%',
   },
   binItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
     padding: 16,
     backgroundColor: '#fff',
     borderRadius: 8,
@@ -90,13 +124,51 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.3,
     shadowRadius: 2,
+    width: '100%',
+    marginBottom: 8,
   },
-  binId: {
+  distanceContainer: {
+    marginRight: 16,
+    backgroundColor: '#65a1e7',
+    borderRadius: 25,
+    padding: 8,
+  },
+  distanceText: {
+    color: '#fff',
     fontWeight: 'bold',
+  },
+  notesText: {
+    flex: 1,
+    marginLeft: 16,
+  },
+  goButtonContainer: {
+    marginLeft: 'auto',
+    backgroundColor: 'green',
+    padding: 10,
+    borderRadius: 8,
+  },
+  goButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  distanceButtonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginBottom: 16,
+  },
+  distanceButton: {
+    backgroundColor: '#ddd',
+    padding: 8,
+    borderRadius: 8,
+    marginHorizontal: 8,
+  },
+  selectedDistanceButton: {
+    backgroundColor: 'lightblue',
   },
 });
 
 export default BinListScreen;
+
 
 
 
