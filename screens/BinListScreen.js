@@ -9,10 +9,11 @@ const BinListScreen = () => {
   const { userLocation } = useLocation();
   const [bins, setBins] = useState([]);
   const [selectedDistance, setSelectedDistance] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     fetchBins();
-  }, [userLocation, selectedDistance]);
+  }, [userLocation, selectedDistance, currentPage]);
 
   const fetchBins = async () => {
     try {
@@ -22,14 +23,22 @@ const BinListScreen = () => {
         id: doc.id,
         ...doc.data(),
       }));
-
+  
       const sortedBins = await calculateDistancesAndSort(binsData, userLocation);
       const filteredBins = filterBinsByDistance(sortedBins, selectedDistance);
-      setBins(filteredBins);
+  
+      // Use only the bins for the current page
+      const itemsPerPage = 8;
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+      const currentPageBins = filteredBins.slice(startIndex, endIndex);
+  
+      setBins((prevBins) => [...prevBins, ...currentPageBins]);
     } catch (error) {
       console.error('Error fetching bins:', error);
     }
   };
+  
 
   const calculateDistancesAndSort = async (bins, userLocation) => {
     const distances = await Promise.all(
@@ -55,7 +64,11 @@ const BinListScreen = () => {
   const renderDistanceButton = (distance) => (
     <TouchableOpacity
       style={[styles.distanceButton, selectedDistance === distance && styles.selectedDistanceButton]}
-      onPress={() => setSelectedDistance(distance)}
+      onPress={() => {
+        setSelectedDistance(distance);
+        setCurrentPage(1); // Reset page when distance is changed
+        setBins([]); // Clear existing bins when distance is changed
+      }}
     >
       <Text>{`${distance} miles`}</Text>
     </TouchableOpacity>
@@ -76,6 +89,10 @@ const BinListScreen = () => {
     </View>
   );
 
+  const handleEndReached = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Nearest Bins</Text>
@@ -89,6 +106,8 @@ const BinListScreen = () => {
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.listContainer}
+        onEndReached={handleEndReached}
+        onEndReachedThreshold={0.9}
       />
     </View>
   );
@@ -168,6 +187,7 @@ const styles = StyleSheet.create({
 });
 
 export default BinListScreen;
+
 
 
 
