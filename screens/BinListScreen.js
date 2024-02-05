@@ -8,7 +8,7 @@ import haversine from 'haversine-distance';
 const BinListScreen = () => {
   const { userLocation } = useLocation();
   const [bins, setBins] = useState([]);
-  const [selectedDistance, setSelectedDistance] = useState(null);
+  const [selectedDistance, setSelectedDistance] = useState(5);
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
@@ -33,7 +33,13 @@ const BinListScreen = () => {
       const endIndex = startIndex + itemsPerPage;
       const currentPageBins = filteredBins.slice(startIndex, endIndex);
   
-      setBins((prevBins) => [...prevBins, ...currentPageBins]);
+      // Replace with:
+setBins((prevBins) => {
+  if (currentPage === 1) {
+    return currentPageBins;
+  }
+  return [...prevBins, ...currentPageBins];
+});
     } catch (error) {
       console.error('Error fetching bins:', error);
     }
@@ -66,8 +72,8 @@ const BinListScreen = () => {
       style={[styles.distanceButton, selectedDistance === distance && styles.selectedDistanceButton]}
       onPress={() => {
         setSelectedDistance(distance);
-        setCurrentPage(1); // Reset page when distance is changed
-        setBins([]); // Clear existing bins when distance is changed
+        setCurrentPage(1); 
+        setBins([]); 
       }}
     >
       <Text>{`${distance} miles`}</Text>

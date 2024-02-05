@@ -1,13 +1,14 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Platform, TouchableOpacity, Text } from 'react-native';
+import { Platform, TouchableOpacity, Text, View, TextInput } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { db } from '../firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import BottomSheet from './BottomSheet';
-import { useLocation } from '../components/LocationContext'; 
+import { useLocation } from '../components/LocationContext';
+import { rgb } from 'color';
 
 const MapComponent = () => {
-  const { userLocation } = useLocation(); 
+  const { userLocation } = useLocation();
   const [bins, setBins] = useState([]);
   const [selectedBin, setSelectedBin] = useState(null);
   const mapRef = useRef(null);
@@ -111,6 +112,26 @@ const MapComponent = () => {
           bin={selectedBin}
         />
       )}
+
+      <View style={{ position: 'absolute', top: 10, width: '100%' }}>
+        <TextInput
+          style={{
+            borderRadius: 30,
+            marginTop: 50,
+            marginLeft: 10,
+            marginRight: 10,
+            color: "white",
+            borderColor: '#666',
+            backgroundColor: "rgb(49, 49, 50)",
+            borderWidth: 1,
+            height: 45,
+            paddingHorizontal: 10,
+            fontSize: 18,
+          }}
+          placeholder={'Search here'}
+          placeholderTextColor={'#999'}
+        />
+      </View>
     </>
   );
 };
@@ -131,6 +152,7 @@ const styles = {
 };
 
 export default MapComponent;
+
 
 
 

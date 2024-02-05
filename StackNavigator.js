@@ -28,11 +28,21 @@ const StackNavigator = () => {
   return (
     <Tab.Navigator>
       {user ? (
-        <Tab.Screen name="Home" 
-        component={HomeStack}
-        options={{
-          headerShown: false
-        }} />
+        <>
+          <Tab.Screen
+            name="Home"
+            component={HomeStack}
+            options={{
+              headerShown: false,
+            }}
+          />
+          
+          <Tab.Screen
+            name="BinList"
+            component={BinListScreen}
+            options={{ tabBarBadge: 1, headerShown: false }}
+          />
+        </>
       ) : (
         <Tab.Screen
           name="Login"
@@ -44,14 +54,6 @@ const StackNavigator = () => {
         />
       )}
       {/* Add additional tabs/screens as needed */}
-      {user && (
-        <Tab.Screen
-          name="BinList"
-          component={BinListScreen}
-          
-          options={{ tabBarBadge: 1, headerShown: false }}
-        />
-      )}
     </Tab.Navigator>
   );
 };
