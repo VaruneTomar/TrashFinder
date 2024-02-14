@@ -22,15 +22,12 @@ const BottomSheet = ({ isOpen, onClose, bin }) => {
       snapPoints={['10%', '50%']}
       onChange={(index) => {
         if (index === -1) {
-          // Handle dismiss event (sheet goes off-screen)
           onClose();
         }
-        // Handle sheet position changes
       }}
     >
       <View>
         <Text>{bin.Notes}</Text>
-        {/* Add your bottom sheet content here */}
       </View>
     </BottomSheetModal>
   );

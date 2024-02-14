@@ -17,7 +17,7 @@ const HomeStack = () => {
       }}
     >
       <Stack.Screen name="Home" component={HomeScreen} />
-      {/* Add other screens related to the Home feature here */}
+
     </Stack.Navigator>
   );
 };
@@ -53,7 +53,7 @@ const StackNavigator = () => {
           }}
         />
       )}
-      {/* Add additional tabs/screens as needed */}
+      
     </Tab.Navigator>
   );
 };

@@ -1,16 +1,17 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Platform, TouchableOpacity, Text, View, TextInput } from 'react-native';
+import { Platform, TouchableOpacity, Text, Modal, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { db } from '../firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import BottomSheet from './BottomSheet';
+import AddBinScreen from '../screens/AddBinScreen'; // Import the AddBinScreen component
 import { useLocation } from '../components/LocationContext';
-import { rgb } from 'color';
 
 const MapComponent = () => {
   const { userLocation } = useLocation();
   const [bins, setBins] = useState([]);
   const [selectedBin, setSelectedBin] = useState(null);
+  const [isAddBinModalVisible, setAddBinModalVisible] = useState(false);
   const mapRef = useRef(null);
 
   useEffect(() => {
@@ -59,6 +60,14 @@ const MapComponent = () => {
     }
   };
 
+  const handleAddBinPress = () => {
+    setAddBinModalVisible(true);
+  };
+
+  const handleAddBinClose = () => {
+    setAddBinModalVisible(false);
+  };
+
   const renderMarkers = () => {
     return bins.map((bin) => (
       <Marker
@@ -105,6 +114,9 @@ const MapComponent = () => {
       <TouchableOpacity style={styles.zoomButton} onPress={handleZoomToUserLocation}>
         <Text style={styles.zoomButtonText}>Zoom to User Location</Text>
       </TouchableOpacity>
+      <TouchableOpacity style={styles.addBinButton} onPress={handleAddBinPress}>
+        <Text style={styles.addBinButtonText}>Add Bin</Text>
+      </TouchableOpacity>
       {selectedBin && (
         <BottomSheet
           isOpen={true}
@@ -112,26 +124,17 @@ const MapComponent = () => {
           bin={selectedBin}
         />
       )}
-
-      <View style={{ position: 'absolute', top: 10, width: '100%' }}>
-        <TextInput
-          style={{
-            borderRadius: 30,
-            marginTop: 50,
-            marginLeft: 10,
-            marginRight: 10,
-            color: "white",
-            borderColor: '#666',
-            backgroundColor: "rgb(49, 49, 50)",
-            borderWidth: 1,
-            height: 45,
-            paddingHorizontal: 10,
-            fontSize: 18,
-          }}
-          placeholder={'Search here'}
-          placeholderTextColor={'#999'}
-        />
-      </View>
+      {/* Modal for AddBinScreen */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={isAddBinModalVisible}
+        onRequestClose={handleAddBinClose}
+      >
+        <View style={styles.modalContainer}>
+          <AddBinScreen onClose={handleAddBinClose} />
+        </View>
+      </Modal>
     </>
   );
 };
@@ -149,9 +152,27 @@ const styles = {
     color: 'white',
     fontWeight: 'bold',
   },
+  addBinButton: {
+    position: 'absolute',
+    top: 50,
+    right: 16,
+    backgroundColor: 'blue', 
+    padding: 10,
+    borderRadius: 8,
+  },
+  addBinButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 };
 
 export default MapComponent;
+
 
 
 
