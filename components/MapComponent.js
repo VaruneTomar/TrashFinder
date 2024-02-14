@@ -4,7 +4,7 @@ import MapView, { Marker } from 'react-native-maps';
 import { db } from '../firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import BottomSheet from './BottomSheet';
-import AddBinScreen from '../screens/AddBinScreen'; // Import the AddBinScreen component
+import AddBinScreen from '../screens/AddBinScreen'; 
 import { useLocation } from '../components/LocationContext';
 
 const MapComponent = () => {
@@ -124,11 +124,10 @@ const MapComponent = () => {
           bin={selectedBin}
         />
       )}
-      {/* Modal for AddBinScreen */}
       <Modal
         animationType="slide"
-        transparent={true}
         visible={isAddBinModalVisible}
+        presentationStyle="formSheet"
         onRequestClose={handleAddBinClose}
       >
         <View style={styles.modalContainer}>

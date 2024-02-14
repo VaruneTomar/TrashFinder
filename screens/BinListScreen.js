@@ -27,13 +27,13 @@ const BinListScreen = () => {
       const sortedBins = await calculateDistancesAndSort(binsData, userLocation);
       const filteredBins = filterBinsByDistance(sortedBins, selectedDistance);
   
-      // Use only the bins for the current page
+      
       const itemsPerPage = 8;
       const startIndex = (currentPage - 1) * itemsPerPage;
       const endIndex = startIndex + itemsPerPage;
       const currentPageBins = filteredBins.slice(startIndex, endIndex);
   
-      // Replace with:
+      
 setBins((prevBins) => {
   if (currentPage === 1) {
     return currentPageBins;
@@ -53,7 +53,7 @@ setBins((prevBins) => {
           latitude: bin.Location.latitude,
           longitude: bin.Location.longitude,
         });
-        return { ...bin, distance: distance / 1609.34 }; // Convert meters to miles
+        return { ...bin, distance: distance / 1609.34 }; 
       })
     );
 
@@ -62,7 +62,7 @@ setBins((prevBins) => {
 
   const filterBinsByDistance = (bins, distance) => {
     if (distance === null) {
-      return bins; // Show all bins if no distance is selected
+      return bins; 
     }
     return bins.filter((bin) => bin.distance <= distance);
   };
@@ -88,7 +88,6 @@ setBins((prevBins) => {
         </View>
         <Text style={styles.notesText}>{`Description: ${item.Notes}`}</Text>
         <View style={styles.goButtonContainer}>
-          {/* Add your "GO" button here */}
           <Text style={styles.goButtonText}>GO</Text>
         </View>
       </View>

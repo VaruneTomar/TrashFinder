@@ -1,5 +1,3 @@
-// BottomSheet.js
-
 import React, { useEffect, useRef } from 'react';
 import { View, Text } from 'react-native';
 import { BottomSheetModal } from '@gorhom/bottom-sheet';
