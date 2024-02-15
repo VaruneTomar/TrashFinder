@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Platform, TouchableOpacity, Text, Modal, View } from 'react-native';
+import { Platform, TouchableOpacity, Text, Image, Modal, View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { db } from '../firebase';
 import { collection, getDocs } from 'firebase/firestore';
@@ -115,7 +115,7 @@ const MapComponent = () => {
         <Text style={styles.zoomButtonText}>Zoom to User Location</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.addBinButton} onPress={handleAddBinPress}>
-        <Text style={styles.addBinButtonText}>Add</Text>
+        <Image source={require('../assets/addbinlogo.png')} style={styles.addBinImage} />
       </TouchableOpacity>
       {selectedBin && (
         <BottomSheet
@@ -155,13 +155,13 @@ const styles = {
     position: 'absolute',
     top: 60,
     left: 15,
-    backgroundColor: 'blue', 
-    padding: 10,
-    borderRadius: 8,
+    backgroundColor: 'green',
+    padding: 4,
+    borderRadius: 40,
   },
-  addBinButtonText: {
-    color: 'white',
-    fontWeight: 'bold',
+  addBinImage: {
+    width: 50,
+    height: 40,
   },
   modalContainer: {
     flex: 1,
@@ -171,6 +171,7 @@ const styles = {
 };
 
 export default MapComponent;
+
 
 
 
