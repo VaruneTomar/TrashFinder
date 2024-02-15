@@ -115,7 +115,7 @@ const MapComponent = () => {
         <Text style={styles.zoomButtonText}>Zoom to User Location</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.addBinButton} onPress={handleAddBinPress}>
-        <Text style={styles.addBinButtonText}>Add Bin</Text>
+        <Text style={styles.addBinButtonText}>Add</Text>
       </TouchableOpacity>
       {selectedBin && (
         <BottomSheet
@@ -153,8 +153,8 @@ const styles = {
   },
   addBinButton: {
     position: 'absolute',
-    top: 50,
-    right: 16,
+    top: 60,
+    left: 15,
     backgroundColor: 'blue', 
     padding: 10,
     borderRadius: 8,
