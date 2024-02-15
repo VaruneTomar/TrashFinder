@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, Linking } from 'react-native';
 import { useLocation } from '../components/LocationContext';
 import { db } from '../firebase';
 import { collection, getDocs } from 'firebase/firestore';
@@ -86,13 +86,23 @@ setBins((prevBins) => {
         <View style={styles.distanceContainer}>
           <Text style={styles.distanceText}>{item.distance.toFixed(1)} miles</Text>
         </View>
-        <Text style={styles.notesText}>{`Description: ${item.Notes}`}</Text>
-        <View style={styles.goButtonContainer}>
+        <Text style={styles.notesText}>{`${item.Notes}`}</Text>
+        <TouchableOpacity
+          style={styles.goButtonContainer}
+          onPress={() => handleOpenMaps(item.Location.latitude, item.Location.longitude)}
+        >
           <Text style={styles.goButtonText}>GO</Text>
-        </View>
+        </TouchableOpacity>
       </View>
     </View>
   );
+
+  const handleOpenMaps = (latitude, longitude) => {
+    const mapsLink = `http://maps.apple.com/?daddr=${latitude},${longitude}&dirflg=d`;
+    Linking.openURL(mapsLink);
+  };
+  
+  
 
   const handleEndReached = () => {
     setCurrentPage((prevPage) => prevPage + 1);
@@ -163,13 +173,14 @@ const styles = StyleSheet.create({
   },
   notesText: {
     flex: 1,
-    marginLeft: 16,
+    marginLeft: 1,
+    paddingRight: 10,
   },
   goButtonContainer: {
     marginLeft: 'auto',
     backgroundColor: 'green',
     padding: 10,
-    borderRadius: 8,
+    borderRadius: 18,
   },
   goButtonText: {
     color: 'white',
