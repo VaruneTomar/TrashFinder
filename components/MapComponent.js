@@ -112,10 +112,10 @@ const MapComponent = () => {
     <>
       {renderMap()}
       <TouchableOpacity style={styles.zoomButton} onPress={handleZoomToUserLocation}>
-        <Text style={styles.zoomButtonText}>Zoom to User Location</Text>
+        <Image source={require('../assets/mylocation.png')}style={styles.zoomButtonImage} />
       </TouchableOpacity>
       <TouchableOpacity style={styles.addBinButton} onPress={handleAddBinPress}>
-        <Image source={require('../assets/addbinlogo.png')} style={styles.addBinImage} />
+        <Image source={require('../assets/addbinicon.png')} style={styles.addBinImage} />
       </TouchableOpacity>
       {selectedBin && (
         <BottomSheet
@@ -141,27 +141,23 @@ const MapComponent = () => {
 const styles = {
   zoomButton: {
     position: 'absolute',
-    bottom: 16,
-    right: 16,
-    backgroundColor: 'green',
-    padding: 10,
-    borderRadius: 8,
-  },
-  zoomButtonText: {
-    color: 'white',
-    fontWeight: 'bold',
+    bottom: 10,
+    right: 5,
+    padding: 2,
   },
   addBinButton: {
     position: 'absolute',
     top: 60,
-    left: 15,
-    backgroundColor: 'green',
+    left: 5,
     padding: 4,
-    borderRadius: 40,
   },
   addBinImage: {
-    width: 50,
-    height: 40,
+    width: 60,
+    height: 60,
+  },
+  zoomButtonImage: {
+    width: 45,
+    height: 45,
   },
   modalContainer: {
     flex: 1,
