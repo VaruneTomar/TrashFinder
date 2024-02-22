@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   addButton: {
-    backgroundColor: 'green',
+    backgroundColor: 'rgb(66, 213, 82)',
     padding: 10,
     borderRadius: 30,
     width: '100%',
@@ -127,12 +127,11 @@ const styles = StyleSheet.create({
   cancelButton: {
     position: 'absolute',
     top: 10,
-    left: 10,
+    left: 5,
   },
   cancelButtonText: {
-    color: 'blue',
-    fontWeight: 'bold',
-    fontSize: 16,
+    color: 'rgb(10, 132, 255)',
+    fontSize: 18,
   },
   confirmationContainer: {
     flexDirection: 'row',
