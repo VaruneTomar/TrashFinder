@@ -163,12 +163,12 @@ const styles = StyleSheet.create({
   },
   distanceContainer: {
     marginRight: 16,
-    backgroundColor: '#65a1e7',
+    backgroundColor: 'rgb(217, 240, 273)',
     borderRadius: 25,
     padding: 8,
   },
   distanceText: {
-    color: '#fff',
+    color: 'black',
     fontWeight: 'bold',
   },
   notesText: {
@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 8,
   },
   selectedDistanceButton: {
-    backgroundColor: 'lightblue',
+    backgroundColor: 'rgb(217, 240, 273)',
   },
 });
 

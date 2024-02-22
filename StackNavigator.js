@@ -10,22 +10,39 @@ import { AuthOpen } from './hooks/useAuth';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-const HomeIcon = () => (
-  <View style={{ alignItems: 'center', marginTop: 21 }}>
-    <Image
-      source={require('./assets/mapicon.png')}
-      style={{ width: 30, height: 30 }}
-    />
+const CustomTabIcon = ({ source, focused, iconWidth, iconHeight }) => (
+  <View style={{ alignItems: 'center', marginTop: 25}}>
+    <View
+      style={{
+        width: 47, 
+        height: 47, 
+        borderRadius: 50, 
+        backgroundColor: focused ? 'rgb(217, 240, 273)' : 'transparent',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <Image source={source} style={{ width: iconWidth, height: iconHeight }} />
+    </View>
   </View>
 );
 
-const BinListIcon = () => (
-  <View style={{ alignItems: 'center', marginTop: 25 }}>
-    <Image
-      source={require('./assets/trashbinListicon.png')}
-      style={{ width: 74, height: 54 }}
-    />
-  </View>
+const HomeIcon = ({ focused }) => (
+  <CustomTabIcon
+    source={require('./assets/mapicon.png')}
+    focused={focused}
+    iconWidth={30}
+    iconHeight={30}
+  />
+);
+
+const BinListIcon = ({ focused }) => (
+  <CustomTabIcon
+    source={require('./assets/trashbinListicon.png')}
+    focused={focused}
+    iconWidth={50}
+    iconHeight={50}
+  />
 );
 
 const HomeStack = () => {
@@ -40,7 +57,7 @@ const HomeStack = () => {
         name="Home"
         component={HomeScreen}
         options={{
-          tabBarIcon: HomeIcon,
+          tabBarIcon: ({ focused }) => <HomeIcon focused={focused} />,
         }}
       />
     </Stack.Navigator>
@@ -68,8 +85,8 @@ const StackNavigator = () => {
             component={HomeStack}
             options={{
               headerShown: false,
-              tabBarIcon: HomeIcon,
               tabBarLabel: '',
+              tabBarIcon: ({ focused }) => <HomeIcon focused={focused} />,
             }}
           />
           <Tab.Screen
@@ -78,7 +95,7 @@ const StackNavigator = () => {
             options={{
               headerShown: false,
               tabBarLabel: '',
-              tabBarIcon: BinListIcon,
+              tabBarIcon: ({ focused }) => <BinListIcon focused={focused} />,
             }}
           />
         </>
@@ -98,6 +115,9 @@ const StackNavigator = () => {
 };
 
 export default StackNavigator;
+
+
+
 
 
 
