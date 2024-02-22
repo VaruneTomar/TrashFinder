@@ -156,8 +156,8 @@ const styles = {
     height: 60,
   },
   zoomButtonImage: {
-    width: 45,
-    height: 45,
+    width: 40,
+    height: 40,
   },
   modalContainer: {
     flex: 1,

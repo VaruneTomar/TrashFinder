@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   goButton: {
-    backgroundColor: 'green',
+    backgroundColor: 'rgb(66, 213, 82)',
     padding: 12,
     borderRadius: 8,
     alignItems: 'center',

@@ -178,13 +178,13 @@ const styles = StyleSheet.create({
   },
   goButtonContainer: {
     marginLeft: 'auto',
-    backgroundColor: 'green',
+    backgroundColor: 'rgb(66, 213, 82)',
     padding: 10,
-    borderRadius: 18,
+    borderRadius: 5,
   },
   goButtonText: {
     color: 'white',
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   distanceButtonsContainer: {
     flexDirection: 'row',
