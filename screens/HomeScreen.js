@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { View, Alert } from 'react-native';
 import MapComponent from '../components/MapComponent';
-import Geolocation from '@react-native-community/geolocation';
+import Geolocation from 'react-native-geolocation-service'; // Import from react-native-geolocation-service
 import { useNavigation } from '@react-navigation/native';
 import { useLocation } from '../components/LocationContext';
 
@@ -14,16 +14,15 @@ const HomeScreen = () => {
   }, []);
 
   const requestLocationPermission = () => {
-    Geolocation.requestAuthorization(
-      (success) => {
+    Geolocation.requestAuthorization('whenInUse').then((result) => {
+      if (result === 'granted') {
         console.log('Location permission granted');
         getCurrentLocation();
-      },
-      (error) => {
-        console.error('Error requesting location permission:', error);
+      } else {
+        console.error('Error requesting location permission');
         showPermissionErrorAlert();
       }
-    );
+    });
   };
 
   const getCurrentLocation = () => {
@@ -57,13 +56,14 @@ const HomeScreen = () => {
   };
 
   return (
-    <View style={{ flex: 1}}>
+    <View style={{ flex: 1 }}>
       <MapComponent />
     </View>
   );
 };
 
 export default HomeScreen;
+
 
 
 

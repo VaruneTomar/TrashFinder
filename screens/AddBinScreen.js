@@ -75,7 +75,7 @@ const AddBinScreen = ({ onClose }) => {
           unfillColor="#FFFFFF"
           iconStyle={{ borderColor: "red" }}
           textStyle={{ fontFamily: "JosefinSans-Regular" }}
-          text="A trash bin marker will be added at your current position, check to confirm this is correct."
+          text="A trash bin marker will be added at your current position, please confirm this is correct."
         />
       </View>
       {descriptionError ? (
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     fontWeight: 'bold',
-    marginBottom: 40,
+    marginBottom: 30,
   },
   input: {
     maxWidth: 320,
@@ -108,8 +108,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 10,
     padding: 10,
-    borderRadius: 10,
-    minHeight: 90, 
+    borderRadius: 5,
+    minHeight: 100, 
   },
   characterLimitText: {
     color: 'red',
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
   },
   addButton: {
     backgroundColor: 'rgb(66, 213, 82)',
-    padding: 10,
+    padding: 15,
     borderRadius: 30,
     width: '100%',
     alignItems: 'center',

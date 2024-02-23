@@ -166,13 +166,14 @@ const styles = {
     height: 40,
   },
   BinMarkerIcon: {
-    width: 95,
-    height: 95,
+    width: 100,
+    height: 100,
   },
   modalContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: 'rgb(248, 246, 249)',
   },
 };
 

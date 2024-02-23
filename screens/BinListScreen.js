@@ -4,6 +4,7 @@ import { useLocation } from '../components/LocationContext';
 import { db } from '../firebase';
 import { collection, getDocs } from 'firebase/firestore';
 import haversine from 'haversine-distance';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
 
 const BinListScreen = () => {
   const { userLocation } = useLocation();
@@ -80,21 +81,31 @@ setBins((prevBins) => {
     </TouchableOpacity>
   );
 
-  const renderItem = ({ item }) => (
-    <View style={styles.binContainer}>
-      <View style={styles.binItem}>
-        <View style={styles.distanceContainer}>
-          <Text style={styles.distanceText}>{item.distance.toFixed(1)} miles</Text>
-        </View>
-        <Text style={styles.notesText}>{`${item.Notes}`}</Text>
-        <TouchableOpacity
-          style={styles.goButtonContainer}
-          onPress={() => handleOpenMaps(item.Location.latitude, item.Location.longitude)}
-        >
-          <Text style={styles.goButtonText}>GO</Text>
-        </TouchableOpacity>
-      </View>
+  const renderRightActions = () => (
+    <View style={styles.rightActions}>
+      <TouchableOpacity onPress={() => handleReport(item)} style={styles.reportButton}>
+        <Text style={styles.reportButtonText}>Report</Text>
+      </TouchableOpacity>
     </View>
+  );
+
+  const renderItem = ({ item }) => (
+    <Swipeable renderRightActions={renderRightActions}>
+      <View style={styles.binContainer}>
+        <View style={styles.binItem}>
+          <View style={styles.distanceContainer}>
+            <Text style={styles.distanceText}>{item.distance.toFixed(1)} miles</Text>
+          </View>
+          <Text style={styles.notesText}>{`${item.Notes}`}</Text>
+          <TouchableOpacity
+            style={styles.goButtonContainer}
+            onPress={() => handleOpenMaps(item.Location.latitude, item.Location.longitude)}
+          >
+            <Text style={styles.goButtonText}>GO</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </Swipeable>
   );
 
   const handleOpenMaps = (latitude, longitude) => {
@@ -114,7 +125,7 @@ setBins((prevBins) => {
       <View style={styles.distanceButtonsContainer}>
         {renderDistanceButton(5)}
         {renderDistanceButton(10)}
-        {renderDistanceButton(25000)}
+        {renderDistanceButton(25)}
       </View>
       <FlatList
         data={bins}
@@ -131,7 +142,9 @@ setBins((prevBins) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    paddingTop: 10,
+    paddingHorizontal: 5,
+    backgroundColor: 'rgb(248, 246, 249)',
   },
   header: {
     fontSize: 22,
@@ -199,6 +212,25 @@ const styles = StyleSheet.create({
   },
   selectedDistanceButton: {
     backgroundColor: 'rgb(217, 240, 273)',
+  },
+  rightActions: {
+    flexDirection: 'row', 
+    justifyContent: 'flex-end',  
+    top: 5,
+    bottom: 5,
+    height: '85%',
+
+  },
+  reportButton: {
+    backgroundColor: 'red',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 80,
+    borderRadius: 10,
+  },
+  reportButtonText: {
+    color: 'black',
+    fontWeight: 'bold',
   },
 });
 

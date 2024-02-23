@@ -73,7 +73,7 @@ const StackNavigator = () => {
         tabBarStyle: {
           activeTintColor: 'black',
           inactiveTintColor: 'grey',
-          backgroundColor: 'white',
+          backgroundColor: 'rgb(248, 246, 249)',
           height: 70,
         },
       }}
