@@ -77,9 +77,15 @@ const MapComponent = () => {
           longitude: bin.Location.longitude,
         }}
         onPress={() => handleMarkerPress(bin)}
-      />
+      >
+        <Image
+          source={require('../assets/binmarkericon.png')} 
+          style={styles.BinMarkerIcon} 
+        />
+      </Marker>
     ));
   };
+  
 
   const renderMap = () => {
     if (Platform.OS === 'android') {
@@ -158,6 +164,10 @@ const styles = {
   zoomButtonImage: {
     width: 40,
     height: 40,
+  },
+  BinMarkerIcon: {
+    width: 95,
+    height: 95,
   },
   modalContainer: {
     flex: 1,
