@@ -12,6 +12,8 @@ const AddBinScreen = ({ onClose }) => {
   const [descriptionError, setDescriptionError] = useState('');
   const { userLocation } = useLocation();
 
+  
+
   const handleAddBin = async () => {
     try {
       if (!binDescription) {
@@ -41,10 +43,16 @@ const AddBinScreen = ({ onClose }) => {
   };
 
   const handleTextChange = (text) => {
-    if (text.length <= maxLength) {
-      setBinDescription(text);
+    const cleanedText = text.replace(/\t/g, ' '); 
+    const normalizedText = cleanedText.replace(/ {2,}/g, ' '); 
+    const trimmedText = normalizedText.trim(); 
+  
+    if (trimmedText.length <= maxLength) {
+      setBinDescription(trimmedText);
     }
   };
+  
+  
 
   return (
     <ScrollView contentContainerStyle={styles.container}>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity, Linking } from 'react-native';
 import { useLocation } from '../components/LocationContext';
 import { db } from '../firebase';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, getDocs, doc, updateDoc } from 'firebase/firestore';
 import haversine from 'haversine-distance';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 
@@ -81,7 +81,20 @@ setBins((prevBins) => {
     </TouchableOpacity>
   );
 
-  const renderRightActions = () => (
+  const handleReport = async (item) => {
+    try {
+      const binRef = doc(db, 'TrashBins', item.item.id);
+    
+      await updateDoc(binRef, {
+        ReportNum: item.item.ReportNum ? item.item.ReportNum + 1 : 1,
+      });
+    } catch (error) {
+      console.error('Error updating report count:', error);
+    }
+  };
+
+  const renderRightActions = (item) => (
+ 
     <View style={styles.rightActions}>
       <TouchableOpacity onPress={() => handleReport(item)} style={styles.reportButton}>
         <Text style={styles.reportButtonText}>Report</Text>
@@ -90,7 +103,7 @@ setBins((prevBins) => {
   );
 
   const renderItem = ({ item }) => (
-    <Swipeable renderRightActions={renderRightActions}>
+    <Swipeable renderRightActions={() => renderRightActions({ item })}>
       <View style={styles.binContainer}>
         <View style={styles.binItem}>
           <View style={styles.distanceContainer}>
@@ -150,7 +163,8 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: 'bold',
     marginTop: 56,
-    marginBottom: 16,
+    marginBottom: 15,
+    marginLeft: 10,
   },
   listContainer: {
     flexGrow: 1,
@@ -173,6 +187,7 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     width: '100%',
     marginBottom: 8,
+    height: 90,
   },
   distanceContainer: {
     marginRight: 16,
@@ -190,7 +205,7 @@ const styles = StyleSheet.create({
     paddingRight: 10,
   },
   goButtonContainer: {
-    marginLeft: 'auto',
+    marginLeft: 10,
     backgroundColor: 'rgb(66, 213, 82)',
     padding: 10,
     borderRadius: 5,
@@ -216,7 +231,7 @@ const styles = StyleSheet.create({
   rightActions: {
     flexDirection: 'row', 
     justifyContent: 'flex-end',  
-    top: 5,
+    top: 4,
     bottom: 5,
     height: '85%',
 
@@ -226,7 +241,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width: 80,
-    borderRadius: 10,
+    borderRadius: 5,
   },
   reportButtonText: {
     color: 'black',
@@ -235,12 +250,3 @@ const styles = StyleSheet.create({
 });
 
 export default BinListScreen;
-
-
-
-
-
-
-
-
-
