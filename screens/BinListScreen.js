@@ -218,7 +218,7 @@ const styles = StyleSheet.create({
   goButtonContainer: {
     marginLeft: 10,
     backgroundColor: 'rgb(66, 213, 82)',
-    padding: 10,
+    padding: 15,
     borderRadius: 5
   },
   goButtonText: {

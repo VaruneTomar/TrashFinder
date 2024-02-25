@@ -58,7 +58,8 @@ const styles = StyleSheet.create({
   },
   description: {
     fontSize: 18,
-    marginBottom: 20
+    marginBottom: 20,
+    paddingLeft: 3,
   },
   goButton: {
     backgroundColor: 'rgb(66, 213, 82)',

@@ -65,7 +65,7 @@ const AddBinScreen = ({ onClose }) => {
       <Text style={styles.title}>Add Trash Bin Location</Text>
       <TextInput
         style={styles.input}
-        placeholder='Enter trash bin location description'
+        placeholder='Enter detailed trash bin location description'
         value={binDescription}
         onChangeText={handleTextChange}
         multiline={true}
@@ -86,14 +86,14 @@ const AddBinScreen = ({ onClose }) => {
           unfillColor='#FFFFFF'
           iconStyle={{ borderColor: 'red' }}
           textStyle={{ fontFamily: 'JosefinSans-Regular' }}
-          text='A trash bin marker will be added at your current position, please confirm this is correct.'
+          text='A trash bin marker will be added at your approximate current position, please confirm this is correct.'
         />
       </View>
       {descriptionError ? (
         <Text style={styles.errorText}>{descriptionError}</Text>
       ) : null}
       <TouchableOpacity style={styles.addButton} onPress={handleAddBin}>
-        <Text style={styles.buttonText}>Add Bin</Text>
+        <Text style={styles.buttonText}>ADD BIN</Text>
       </TouchableOpacity>
     </ScrollView>
   )
