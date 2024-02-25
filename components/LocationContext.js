@@ -1,25 +1,25 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState } from 'react'
 
-const LocationContext = createContext();
+const LocationContext = createContext()
 
 export const LocationProvider = ({ children }) => {
-  const [userLocation, setUserLocation] = useState(null);
+  const [userLocation, setUserLocation] = useState(null)
 
   const setLocation = (location) => {
-    setUserLocation(location);
-  };
+    setUserLocation(location)
+  }
 
   return (
     <LocationContext.Provider value={{ userLocation, setLocation }}>
       {children}
     </LocationContext.Provider>
-  );
-};
+  )
+}
 
 export const useLocation = () => {
-  const context = useContext(LocationContext);
+  const context = useContext(LocationContext)
   if (!context) {
-    throw new Error('useLocation needed within a LocationProvider');
+    throw new Error('useLocation needed within a LocationProvider')
   }
-  return context;
-};
+  return context
+}
